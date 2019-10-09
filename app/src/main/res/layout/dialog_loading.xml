@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/dialog_loading_view">
+
+    <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="110dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/loading_bg"
+            android:paddingBottom="10dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+        >
+
+        <ProgressBar
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:indeterminateBehavior="repeat"
+                android:indeterminateDrawable="@drawable/dialog_loading"
+            />
+
+        <TextView
+            android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加载中..."
+                android:textColor="#f0f0f0"
+                android:textSize="16sp"
+                />
+    </LinearLayout>
+</LinearLayout>
