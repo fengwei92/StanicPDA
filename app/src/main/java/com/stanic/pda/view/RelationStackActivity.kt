@@ -126,6 +126,7 @@ class RelationStackActivity : BaseActivity(), MvpView, View.OnClickListener {
                     currentIndex = 0
                     tv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
                     tv_stack_entry.setTextColor(resources.getColor(R.color.mian_color))
+                    stackEntryFragment.cleanEdit()
                 }
             }
 
@@ -135,6 +136,7 @@ class RelationStackActivity : BaseActivity(), MvpView, View.OnClickListener {
                     currentIndex = 1
                     tv_2.setBackgroundColor(resources.getColor(R.color.mian_color))
                     tv_stack_fictitious.setTextColor(resources.getColor(R.color.mian_color))
+                    stackFictitiousFragment.cleanEdit()
                 }
             }
         }

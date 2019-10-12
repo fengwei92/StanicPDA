@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -40,6 +41,7 @@ class ReturnOutActivity : BaseActivity(), MvpView, View.OnClickListener {
     }
 
     private fun initView() {
+        rv_detail.layoutManager = LinearLayoutManager(this)
         tv_parts.setOnClickListener(this)
         tv_case.setOnClickListener(this)
         tv_support.setOnClickListener(this)
@@ -54,6 +56,7 @@ class ReturnOutActivity : BaseActivity(), MvpView, View.OnClickListener {
                 val string = String(p1?.extras?.getByteArray(UrlList.KEY)!!)
                 if (scanControl) {
                     scanControl = false
+                    et_code.setText(string)
                     cancelOut(string)
                 }
             }
@@ -169,9 +172,17 @@ class ReturnOutActivity : BaseActivity(), MvpView, View.OnClickListener {
         //退货列表展示
         Log.d("testMsg", data.toString())
         val bean = JSONObject.parseObject(data.toString(), ReturnBean::class.java)
-        list.clear()
-        list.add(bean)
-        setAdapter()
+        if (bean.code == 1){
+            val code = et_code.text.toString().trim()
+            et_code.setText("")
+            bean.setsCode(code)
+            list.clear()
+            list.add(bean)
+            setAdapter()
+        }else{
+            Toast.makeText(this,bean.msg,Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun setAdapter() {

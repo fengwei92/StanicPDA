@@ -12,6 +12,15 @@ public class BoxRelationBean {
     private String msg;
     private Object data;
     private String caseCode;
+    private String boxCode;
+
+    public String getBoxCode() {
+        return boxCode;
+    }
+
+    public void setBoxCode(String boxCode) {
+        this.boxCode = boxCode;
+    }
 
     public String getCaseCode() {
         return caseCode;

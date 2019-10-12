@@ -93,6 +93,7 @@
                 android:layout_weight="3"
                 android:maxLines="1"
                 android:hint="请扫描或输入条码"
+                android:inputType="text"
                 android:paddingStart="10dp"
                 android:background="@drawable/left_edit_bg" />
 

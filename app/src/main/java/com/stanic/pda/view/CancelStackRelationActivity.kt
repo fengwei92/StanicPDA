@@ -7,18 +7,28 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.alibaba.fastjson.JSONObject
 import com.stanic.pda.R
 import com.stanic.pda.StanicManager
+import com.stanic.pda.adapter.CancelCaseRelationAdapter
+import com.stanic.pda.bean.CancelRelationCaseBean
 import com.stanic.pda.presenter.MvpPresenter
 import com.stanic.pda.util.UrlList
 import kotlinx.android.synthetic.main.activity_cancel_stack_relation.*
+import kotlinx.android.synthetic.main.activity_cancel_stack_relation.et_input_code
+import kotlinx.android.synthetic.main.activity_cancel_stack_relation.iv_1
+import kotlinx.android.synthetic.main.activity_cancel_stack_relation.iv_2
+import kotlinx.android.synthetic.main.activity_cancel_stack_relation.tv_case
 
 class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListener{
     private var currentIndex = 0
     private lateinit var mReceiver: BroadcastReceiver
     private var mvpPresenter : MvpPresenter? = null
+    private val list = ArrayList<CancelRelationCaseBean>()
+    private var currentCode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +54,19 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
     }
 
     override fun showData(data: Any) {
+        Log.d("httpResponse",data.toString())
+        scanControl = true
+        val cancelCaseRelationBean = JSONObject.parseObject(data.toString(),
+            CancelRelationCaseBean::class.java)
+        val code = cancelCaseRelationBean.code
+        if (code == 1){
+            et_input_code.setText("")
+            cancelCaseRelationBean.setsCode(currentCode)
+            list.add(0,cancelCaseRelationBean)
+            setAdapter()
+        }else{
+            Toast.makeText(this,cancelCaseRelationBean.msg,Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -55,6 +78,7 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
                     clearAllColor()
                     tv_case.setTextColor(resources.getColor(R.color.mian_color))
                     iv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
+                    et_input_code.setText("")
                 }
             }
             R.id.tv_stack -> {
@@ -63,7 +87,7 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
                     clearAllColor()
                     tv_stack.setTextColor(resources.getColor(R.color.mian_color))
                     iv_2.setBackgroundColor(resources.getColor(R.color.mian_color))
-
+                    et_input_code.setText("")
                 }
             }
             R.id.tv_submit -> {
@@ -85,6 +109,7 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
                 val string = String(p1?.extras?.getByteArray(UrlList.KEY)!!)
                 if (scanControl) {
                     scanControl = false
+                    et_input_code.setText(string)
                     cancelCaseRelation(string)
                 }
             }
@@ -99,15 +124,16 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
      * @param code 箱码/盒码
      */
     private fun cancelCaseRelation(code : String){
-        val url = "${BASE_URL}pdaout/cancelrelationcase"
+        val url = "${BASE_URL}pdaout/cancelrelationstore"
         var codeType = 0
+        currentCode = code
         val map = HashMap<Any,Any>()
         map["project"] = StanicManager.stanicManager.projectCode!!
         if (currentIndex == 0){
-            map["barcode"] = code
+            map["casecode"] = code
             codeType = 2
         }else{
-            map["casecode"] = code
+            map["storecode"] = code
             codeType = 1
         }
         map["userid"] = StanicManager.stanicManager.userId!!
@@ -120,5 +146,10 @@ class CancelStackRelationActivity : BaseActivity() , MvpView , View.OnClickListe
         iv_2.setBackgroundColor(resources.getColor(R.color.white))
         tv_case.setTextColor(resources.getColor(R.color.text_color))
         tv_stack.setTextColor(resources.getColor(R.color.text_color))
+    }
+
+    private fun setAdapter(){
+        val cancelRelationCaseAdapter = CancelCaseRelationAdapter(this,list)
+        rv_cancel_stack_relation.adapter = cancelRelationCaseAdapter
     }
 }

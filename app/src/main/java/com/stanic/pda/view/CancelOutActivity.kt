@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -112,7 +113,12 @@ class CancelOutActivity : BaseActivity(), MvpView, View.OnClickListener {
                 outstatus = 1
             }
             R.id.tv_submit -> {
-
+                val code = et_code.text.toString().trim()
+                if (TextUtils.isEmpty(code)){
+                    Toast.makeText(this@CancelOutActivity,"请扫描或输入条码",Toast.LENGTH_SHORT).show()
+                }else{
+                    cancelOut(code)
+                }
             }
         }
 
@@ -172,10 +178,15 @@ class CancelOutActivity : BaseActivity(), MvpView, View.OnClickListener {
         //取消列表展示
         Log.d("httpResponse ->", data.toString())
         val cancelOutBean = JSONObject.parseObject(data.toString(), CancelOutBean::class.java)
-        cancelOutBean.setsCode(currentCode)
-        list.clear()
-        list.add(cancelOutBean)
-        setAdapter()
+        if (cancelOutBean.code == 1){
+            cancelOutBean.setsCode(currentCode)
+            list.clear()
+            list.add(cancelOutBean)
+            setAdapter()
+        }else{
+            Toast.makeText(this,cancelOutBean.msg,Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun setAdapter(){

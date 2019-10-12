@@ -23,10 +23,10 @@ class CaseRelationAdapter(
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
         if (p1 == TYPE_HEAD) {
-            val headView = inflater.inflate(R.layout.item_tv_tv_head, p0, false)
+            val headView = inflater.inflate(R.layout.item_store_case_count_head, p0, false)
             return CaseRelationHeaderHolder(headView)
         } else {
-            val contentView = inflater.inflate(R.layout.item_tv_tv, p0, false)
+            val contentView = inflater.inflate(R.layout.item_case_box_count, p0, false)
             return CaseRelationHolder(contentView)
         }
 
@@ -41,6 +41,7 @@ class CaseRelationAdapter(
             is CaseRelationHolder -> {
                 p0.tvStackCode.text = list[p1-1].stackCode
                 p0.tvCount.text = "${list[p1-1].data}"
+                p0.tvCaseCode.text = list[p1-1].caseCode
             }
         }
 
@@ -59,7 +60,8 @@ class CaseRelationAdapter(
 
     inner class CaseRelationHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvStackCode = view.findViewById<TextView>(R.id.tv_1)
-        val tvCount = view.findViewById<TextView>(R.id.tv_2)
+        val tvCount = view.findViewById<TextView>(R.id.tv_3)
+        val tvCaseCode = view.findViewById<TextView>(R.id.tv_2)
     }
 
     inner class CaseRelationHeaderHolder(view: View) : RecyclerView.ViewHolder(view) {

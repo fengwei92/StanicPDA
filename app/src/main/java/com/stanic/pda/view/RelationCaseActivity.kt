@@ -125,6 +125,7 @@ class RelationCaseActivity : BaseActivity(), MvpView, View.OnClickListener {
                     currentIndex = 0
                     tv_entry.setTextColor(resources.getColor(R.color.mian_color))
                     tv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
+                    entryFragment.cleanAllInput()
                 }
             }
 
@@ -134,6 +135,7 @@ class RelationCaseActivity : BaseActivity(), MvpView, View.OnClickListener {
                     currentIndex = 1
                     tv_fictitious.setTextColor(resources.getColor(R.color.mian_color))
                     tv_2.setBackgroundColor(resources.getColor(R.color.mian_color))
+                    fictitiousFragment.cleanAllInput()
                 }
             }
         }

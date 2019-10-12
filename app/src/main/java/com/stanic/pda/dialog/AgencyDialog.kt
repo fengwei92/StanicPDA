@@ -32,29 +32,33 @@ class AgencyDialog(context:Context) : BaseDialog(context) , AgencyAdapter.OnSele
     }
 
     private fun initData(){
-        val url = "${BASE_URL}pdaout/queryAllAgency"
-        VolleyUtil.get(url,object : VolleyUtil.OnResponse<String>{
-            override fun onMap(map: HashMap<String, String>) {
-                map["project"] = StanicManager.stanicManager.projectCode!!
-                map["agencyid"] = StanicManager.stanicManager.userAgencyId!!
-            }
-
-            override fun onSuccess(response: String) {
-                Log.d("httpResponse",response)
-                val bean = JSONObject.parseObject(response,AgencyBean::class.java)
-                if (bean.code == 0){
-                    val dataBean = bean.data as ArrayList
-                    setAdapter(dataBean)
-                }else{
-                    Toast.makeText(context,bean.msg,Toast.LENGTH_SHORT).show()
+        try {
+            val url = "${BASE_URL}pdaout/queryAllAgency"
+            VolleyUtil.get(url,object : VolleyUtil.OnResponse<String>{
+                override fun onMap(map: HashMap<String, String>) {
+                    map["project"] = StanicManager.stanicManager.projectCode!!
+                    map["agencyid"] = StanicManager.stanicManager.userAgencyId!!
                 }
-            }
 
-            override fun onError(error: VolleyError) {
+                override fun onSuccess(response: String) {
+                    Log.d("httpResponse",response)
+                    val bean = JSONObject.parseObject(response,AgencyBean::class.java)
+                    if (bean.code == 0){
+                        val dataBean = bean.data as ArrayList
+                        setAdapter(dataBean)
+                    }else{
+                        Toast.makeText(context,bean.msg,Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-            }
+                override fun onError(error: VolleyError) {
 
-        })
+                }
+            })
+        }catch (e: Exception){
+            Toast.makeText(context,"获取经销商列表失败,错误代码:5001",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun setAdapter(dataBean : ArrayList<AgencyBean.DataBean>){

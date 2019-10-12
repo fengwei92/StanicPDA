@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/StanicPda.iml" filepath="$PROJECT_DIR$/StanicPda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StanicPDA.iml" filepath="$PROJECT_DIR$/StanicPDA.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

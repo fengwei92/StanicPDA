@@ -12,6 +12,15 @@ public class CaseRelationBean {
     private String msg;
     private Object data;
     private String stackCode;
+    private String caseCode;
+
+    public String getCaseCode() {
+        return caseCode;
+    }
+
+    public void setCaseCode(String caseCode) {
+        this.caseCode = caseCode;
+    }
 
     public String getStackCode() {
         return stackCode;

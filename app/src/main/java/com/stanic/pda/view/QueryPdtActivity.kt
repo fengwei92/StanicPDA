@@ -47,20 +47,23 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
         Log.d("httpResponse -> ", data.toString())
         val queryBean = JSONObject.parseObject(data.toString(), QueryBean::class.java)
         if (queryBean.code == 1) {
-            var text = "产品名称：  ${queryBean.data.pdtname}" + "\r\n" +
-                    "经销商：  ${queryBean.data.agency}" + "\r\n"
-            if (!TextUtils.isEmpty(queryBean.data.barcode)){
-                text += "盒码：  ${queryBean.data.barcode}" + "\r\n"
+            if (queryBean.data == null) {
+                Toast.makeText(this, "暂无数据", Toast.LENGTH_SHORT).show()
+            } else {
+                var text = "产品名称：  ${queryBean.data.pdtname}" + "\r\n" +
+                        "经销商：  ${queryBean.data.agency}" + "\r\n"
+                if (!TextUtils.isEmpty(queryBean.data.barcode)) {
+                    text += "盒码：  ${queryBean.data.barcode}" + "\r\n"
+                }
+                if (!TextUtils.isEmpty(queryBean.data.casecode)) {
+                    text += "箱码：  ${queryBean.data.casecode}" + "\r\n"
+                }
+                if (!TextUtils.isEmpty(queryBean.data.storecode)) {
+                    text += "托码：  ${queryBean.data.storecode}" + "\r\n"
+                }
+                text += "数量：  ${queryBean.data.outcount}" + "\r\n"
+                tv_pdt_detail.setText(text)
             }
-            if (!TextUtils.isEmpty(queryBean.data.casecode)){
-                text += "箱码：  ${queryBean.data.casecode}" + "\r\n"
-            }
-            if (!TextUtils.isEmpty(queryBean.data.storecode)){
-                text += "托码：  ${queryBean.data.storecode}" + "\r\n"
-            }
-            text +=  "数量：  ${queryBean.data.outcount}" + "\r\n"
-            tv_pdt_detail.setText(text)
-
         } else {
             Toast.makeText(this, queryBean.msg, Toast.LENGTH_SHORT).show()
         }
@@ -81,18 +84,21 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
                 status = 3
                 tv_query_parts.setTextColor(resources.getColor(R.color.mian_color))
                 iv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
+                et_query_code.setText("")
             }
             R.id.tv_query_case -> {
                 cleanAllColor()
                 status = 2
                 tv_query_case.setTextColor(resources.getColor(R.color.mian_color))
                 iv_2.setBackgroundColor(resources.getColor(R.color.mian_color))
+                et_query_code.setText("")
             }
             R.id.tv_query_support -> {
                 cleanAllColor()
                 status = 1
                 tv_query_support.setTextColor(resources.getColor(R.color.mian_color))
                 iv_3.setBackgroundColor(resources.getColor(R.color.mian_color))
+                et_query_code.setText("")
             }
         }
     }

@@ -54,9 +54,16 @@ class CancelCaseRelationActivity : BaseActivity() , MvpView , View.OnClickListen
         Log.d("httpResponse",data.toString())
         scanControl = true
         val cancelCaseRelationBean = JSONObject.parseObject(data.toString(),CancelRelationCaseBean::class.java)
-        cancelCaseRelationBean.setsCode(currentCode)
-        list.add(0,cancelCaseRelationBean)
-        setAdapter()
+        val code = cancelCaseRelationBean.code
+        if (code == 1){
+            et_input_code.setText("")
+            cancelCaseRelationBean.setsCode(currentCode)
+            list.add(0,cancelCaseRelationBean)
+            setAdapter()
+        }else{
+            Toast.makeText(this,cancelCaseRelationBean.msg,Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun onClick(p0: View?) {
@@ -67,6 +74,8 @@ class CancelCaseRelationActivity : BaseActivity() , MvpView , View.OnClickListen
                     clearAllColor()
                     tv_box.setTextColor(resources.getColor(R.color.mian_color))
                     iv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
+                    et_input_code.setText("")
+
                 }
             }
             R.id.tv_case -> {
@@ -75,6 +84,7 @@ class CancelCaseRelationActivity : BaseActivity() , MvpView , View.OnClickListen
                     clearAllColor()
                     tv_case.setTextColor(resources.getColor(R.color.mian_color))
                     iv_2.setBackgroundColor(resources.getColor(R.color.mian_color))
+                    et_input_code.setText("")
                 }
             }
             R.id.btn_submit -> {
@@ -95,6 +105,7 @@ class CancelCaseRelationActivity : BaseActivity() , MvpView , View.OnClickListen
                 val string = String(p1?.extras?.getByteArray(UrlList.KEY)!!)
                 if (scanControl) {
                     scanControl = false
+                    et_input_code.setText(string)
                     cancelCaseRelation(string)
                 }
             }

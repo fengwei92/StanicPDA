@@ -25,7 +25,6 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
 
     private var stackCode = ""
     private lateinit var tipDialog: TipDialog
-    private lateinit var currentCaseCode: String
     private lateinit var currentOldCode: String
     private val relationBeanList = ArrayList<CaseRelationBean>()
     private lateinit var caseRelationAdapter: CaseRelationAdapter
@@ -62,7 +61,7 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
     /**
      * 清空箱码，盒码数据
      */
-    private fun cleanEdit() {
+    fun cleanEdit() {
         et_case_code.setText("")
         stackCode = System.currentTimeMillis().toString()
     }
@@ -98,6 +97,8 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
                     }
                     SUCCESS -> {
                         caseRelationBean.stackCode = stackCode
+                        caseRelationBean.caseCode = et_case_code.text.toString().trim()
+                        et_case_code.setText("")
                         relationBeanList.add(0, caseRelationBean)
                         setAdapter()
                     }
@@ -132,14 +133,15 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
      * @param oldCode
      */
     private fun reRelationCase(oldCode: String) {
-        val url = "${BASE_URL}pdaout/relationcase"
+        val url = "${BASE_URL}pdaout/relationstore"
         val projectCode = StanicManager.stanicManager.projectCode
         val userId = StanicManager.stanicManager.userId
+        val caseCode = et_case_code.text.toString().trim()
         VolleyUtil.get(url, object : VolleyUtil.OnResponse<String> {
             override fun onMap(map: HashMap<String, String>) {
                 map["project"] = projectCode!!
                 map["storecode"] = stackCode
-                map["casecode"] = currentCaseCode
+                map["casecode"] = caseCode
                 map["userid"] = userId!!
                 map["oldcasecode"] = oldCode
             }
@@ -153,8 +155,12 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
                 }
                 if (caseRelationBean.code == SUCCESS) {
                     caseRelationBean.stackCode = stackCode
+                    caseRelationBean.caseCode = et_case_code.text.toString().trim()
+                    et_case_code.setText("")
                     relationBeanList.add(0, caseRelationBean)
                     setAdapter()
+                }else{
+                    Toast.makeText(activity,caseRelationBean.msg,Toast.LENGTH_SHORT).show()
                 }
                 (activity as RelationStackActivity).scanControl = true
             }

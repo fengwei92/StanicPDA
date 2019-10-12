@@ -32,7 +32,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
-                    android:text="实体箱垛关联"
+                    android:text="实体箱托关联"
                     android:textSize="18sp"
                     android:gravity="center"
                     android:textColor="@color/text_color"
@@ -60,7 +60,7 @@
                     android:id="@+id/tv_stack_fictitious"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
-                    android:text="虚拟箱垛关联"
+                    android:text="虚拟箱托关联"
                     android:textColor="@color/text_color"
                     android:textSize="18sp"
                     android:gravity="center"

@@ -102,8 +102,10 @@ class EntryFragment : BaseFragment(), View.OnClickListener, TipDialog.SelectList
                         Toast.makeText(activity, boxRelationBean.msg, Toast.LENGTH_SHORT).show()
                     }
                     SUCCESS -> {
+                        val boxCode = et_entry_box_code.text.toString().trim()
                         et_entry_box_code.setText("")
                         boxRelationBean.caseCode = caseCode
+                        boxRelationBean.boxCode = boxCode
                         relationBeanList.add(0, boxRelationBean)
                         setAdapter()
                     }
@@ -150,8 +152,10 @@ class EntryFragment : BaseFragment(), View.OnClickListener, TipDialog.SelectList
                     tipDialog.hide()
                 }
                 if (boxRelationBean.code == SUCCESS) {
+                    val boxCode = et_entry_box_code.text.toString().trim()
                     et_entry_box_code.setText("")
                     boxRelationBean.caseCode = caseCode
+                    boxRelationBean.boxCode = boxCode
                     relationBeanList.add(0, boxRelationBean)
                     setAdapter()
                 }else{
@@ -214,6 +218,11 @@ class EntryFragment : BaseFragment(), View.OnClickListener, TipDialog.SelectList
                 relationCase(barCode, caseCode)
             }
         }
+    }
+
+    fun cleanAllInput() {
+        et_entry_box_code.setText("")
+        et_entry_case_code.setText("")
     }
 
 }

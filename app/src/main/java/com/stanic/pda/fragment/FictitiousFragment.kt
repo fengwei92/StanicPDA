@@ -1,11 +1,6 @@
 package com.stanic.pda.fragment
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -13,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import com.alibaba.fastjson.JSONObject
 import com.android.volley.VolleyError
@@ -21,7 +17,6 @@ import com.stanic.pda.StanicManager
 import com.stanic.pda.adapter.BoxRelationAdapter
 import com.stanic.pda.bean.BoxRelationBean
 import com.stanic.pda.dialog.TipDialog
-import com.stanic.pda.util.UrlList
 import com.stanic.pda.view.RelationCaseActivity
 import com.stanic.sjty_pda.util.VolleyUtil
 import kotlinx.android.synthetic.main.fragment_relation_fictitious.*
@@ -36,6 +31,8 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
     private val relationBeanList = ArrayList<BoxRelationBean>()
     private lateinit var boxRelationAdapter: BoxRelationAdapter
     private lateinit var rvRelateRes: RecyclerView
+    private lateinit var btnRelation : Button
+    private lateinit var btnClean : Button
 
     companion object {
         private const val BE_RELATED = 11 //该盒已与其他箱码关联
@@ -54,6 +51,10 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
         caseCode = System.currentTimeMillis().toString()
         initData()
         val view = View.inflate(context, R.layout.fragment_relation_fictitious, null)
+        btnRelation = view.findViewById(R.id.btn_relation_case)
+        btnClean = view.findViewById(R.id.btn_clean)
+        btnRelation.setOnClickListener(this)
+        btnClean.setOnClickListener(this)
         rvRelateRes = view.findViewById(R.id.rv_box_relate_res)
         rvRelateRes.layoutManager = LinearLayoutManager(context)
         return view
@@ -104,6 +105,8 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
                     }
                     SUCCESS -> {
                         boxRelationBean.caseCode = caseCode
+                        boxRelationBean.boxCode = et_box_code.text.toString().trim()
+                        et_box_code.setText("")
                         relationBeanList.add(0, boxRelationBean)
                         setAdapter()
                     }
@@ -145,6 +148,8 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
                 }
                 if (boxRelationBean.code == SUCCESS) {
                     boxRelationBean.caseCode = caseCode
+                    boxRelationBean.boxCode = et_box_code.text.toString().trim()
+                    et_box_code.setText("")
                     relationBeanList.add(0, boxRelationBean)
                     setAdapter()
                 }else{
@@ -175,8 +180,6 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
         tipDialog = builder.create()
         tipDialog.show()
     }
-
-
 
 
     private fun setAdapter() {
@@ -210,6 +213,10 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
         } else {
             reRelationCase(currentOldCode)
         }
+    }
+
+    fun cleanAllInput() {
+        et_box_code.setText("")
     }
 
 }

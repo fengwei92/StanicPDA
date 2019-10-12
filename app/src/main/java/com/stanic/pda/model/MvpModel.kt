@@ -84,11 +84,16 @@ class MvpModel {
         StanicManager.stanicManager.userId = userId
         StanicManager.stanicManager.userAgencyId = userAgencyId
         val menu = jsonObject.getString("catalogids")
+        if (menu.equals("{}")) {
+            return ""
+        }
         val obj = JSONObject.parseObject(menu)
         val keyListStr = getAllKeys(obj).toString()
-        val keyList = keyListStr.split(",").sorted()
+        val keyList = keyListStr.split(",")
+        val menuList = sortKeyList(keyList)
         val menuBeanList = ArrayList<MenuBean>()
-        for (i in keyList.iterator()) {
+
+        for (i in menuList.iterator()) {
             val menuBean = MenuBean()
             menuBean.name = CodeToName.getMenuName(i.toInt())
             val childNameList = obj.getJSONArray(i).toString()
@@ -111,6 +116,10 @@ class MvpModel {
 
     }
 
+
+    /**
+     * 获取所有的主菜单
+     */
     private fun getAllKeys(obj: JSONObject): StringBuffer {
         val stringBuffer = StringBuffer()
         val keys = obj.keys.iterator()
@@ -123,8 +132,25 @@ class MvpModel {
         } catch (e: Exception) {
 
         }
-
         return stringBuffer
+    }
+
+
+    /**
+     * 排序
+     */
+
+    private fun sortKeyList(keyList: List<String>) : ArrayList<String> {
+        val sortMenuList = ArrayList<String>()
+        val simpleMenu = arrayListOf<String>("5001","5009","5002","5010","5003","5004","5005","5006","5007","5008")
+        for (i in simpleMenu.iterator()){
+            for (j in keyList.listIterator()){
+                if (i == j){
+                    sortMenuList.add(j)
+                }
+            }
+        }
+        return sortMenuList
     }
 
 }

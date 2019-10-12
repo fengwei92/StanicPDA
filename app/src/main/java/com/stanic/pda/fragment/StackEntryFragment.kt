@@ -59,7 +59,7 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
     /**
      * 清空箱码，盒码数据
      */
-    private fun cleanEdit() {
+    fun cleanEdit() {
         et_stack_code.setText("")
         et_case_code.setText("")
     }
@@ -68,7 +68,7 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
      * 关联
      */
     fun relationCase(caseCode : String,stackCode: String) {
-        val url = "${BASE_URL}pdaout/relationcase"
+        val url = "${BASE_URL}pdaout/relationstore"
         val userId = StanicManager.stanicManager.userId
         val projectCode = StanicManager.stanicManager.projectCode!!
         currentCaseCode = caseCode
@@ -95,7 +95,9 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
                         Toast.makeText(activity, caseRelationBean.msg, Toast.LENGTH_SHORT).show()
                     }
                     SUCCESS -> {
+                        val caseCode = et_case_code.text.toString().trim()
                         et_case_code.setText("")
+                        caseRelationBean.caseCode = caseCode
                         caseRelationBean.stackCode = stackCode
                         relationBeanList.add(0, caseRelationBean)
                         setAdapter()
@@ -137,7 +139,7 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
      * @param oldCode
      */
     fun reRelationCase(oldCode: String) {
-        val url = "${BASE_URL}pdaout/relationcase"
+        val url = "${BASE_URL}pdaout/relationstore"
         val projectCode = StanicManager.stanicManager.projectCode
         val userId = StanicManager.stanicManager.userId
         val stackCode = et_stack_code.text.toString().trim()
@@ -162,7 +164,9 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
                     tipDialog.hide()
                 }
                 if (caseRelationBean.code == SUCCESS) {
+                    val caseCode = et_case_code.text.toString().trim()
                     et_case_code.setText("")
+                    caseRelationBean.caseCode = caseCode
                     caseRelationBean.stackCode = stackCode
                     relationBeanList.add(0, caseRelationBean)
                     setAdapter()
@@ -207,4 +211,5 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
             }
         }
     }
+
 }

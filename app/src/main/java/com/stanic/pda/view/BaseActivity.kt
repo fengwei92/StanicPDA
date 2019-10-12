@@ -15,6 +15,7 @@ open class BaseActivity : AppCompatActivity(), IBaseView {
     var scanControl = true
 
     val TEST_IP = "http://192.168.1.222:8083/"//scb
+//    val TEST_IP = "http://192.168.1.176:8081/"//xyh
 //    val TEST_IP = "http://192.168.1.110:8081/"//cj
 
     val TEST_PROJECT_CODE = "pdaout/"
