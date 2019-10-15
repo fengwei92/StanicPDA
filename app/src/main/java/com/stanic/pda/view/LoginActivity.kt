@@ -74,7 +74,6 @@ class LoginActivity : BaseActivity(), MvpView, View.OnClickListener,ActivityComp
         SpUtil.put(this, SpUtil.USER_NAME, et_username.text.toString())
         SpUtil.put(this, SpUtil.PASSWORD, et_password.text.toString())
         SpUtil.put(this, SpUtil.PROJECT_CODE, et_pro_code.text.toString())
-        StanicManager.stanicManager.projectCode = projectCode
         val dataObj = JSONObject.parseObject(data.toString())
         val code = dataObj.getIntValue("code")
         if (code == 1) {

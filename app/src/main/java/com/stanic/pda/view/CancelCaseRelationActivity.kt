@@ -128,8 +128,9 @@ class CancelCaseRelationActivity : BaseActivity() , MvpView , View.OnClickListen
         val url = "${BASE_URL}pdaout/cancelrelationcase"
         var codeType = 0
         currentCode = code
+        val projectCode = StanicManager.stanicManager.projectCode
         val map = HashMap<Any,Any>()
-        map["project"] = "scb"
+        map["project"] = projectCode!!
         if (currentIndex == 0){
             map["barcode"] = code.trim()
             codeType = 2

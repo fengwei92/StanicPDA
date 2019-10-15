@@ -155,6 +155,7 @@ class CancelOutActivity : BaseActivity(), MvpView, View.OnClickListener {
 
     private fun cancelOut(code: String) {
         currentCode = code
+        val projectCode = StanicManager.stanicManager.projectCode
         val url = "${BASE_URL}pdaout/cancelout"
         val map = HashMap<Any, Any>()
         when (outstatus) {
@@ -167,7 +168,7 @@ class CancelOutActivity : BaseActivity(), MvpView, View.OnClickListener {
             3 -> map["barcode"] = code
 
         }
-        map["project"] = "scb"
+        map["project"] = projectCode!!
         map["userid"] = StanicManager.stanicManager.userId!!
         map["outstatus"] = outstatus
         mvpPresenter?.getData(map, url)

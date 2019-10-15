@@ -62,7 +62,7 @@ class StackFictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.
      * 清空箱码，盒码数据
      */
     fun cleanEdit() {
-        et_case_code.setText("")
+        et_case_code?.setText("")
         stackCode = System.currentTimeMillis().toString()
     }
 

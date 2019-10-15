@@ -79,9 +79,11 @@ class MvpModel {
     fun dealData(a: Any): Any {
         val jsonObject = JSONObject.parseObject(a.toString())
         val userObject = jsonObject.getJSONObject("user")
+        val projectCode = userObject.getString("tableprix")
         val userId = userObject?.getString("id")
         val userAgencyId = userObject?.getString("agencyid")
         StanicManager.stanicManager.userId = userId
+        StanicManager.stanicManager.projectCode = projectCode
         StanicManager.stanicManager.userAgencyId = userAgencyId
         val menu = jsonObject.getString("catalogids")
         if (menu.equals("{}")) {

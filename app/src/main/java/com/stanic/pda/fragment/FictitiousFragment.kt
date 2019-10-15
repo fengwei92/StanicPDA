@@ -216,7 +216,7 @@ class FictitiousFragment : BaseFragment(), View.OnClickListener, TipDialog.Selec
     }
 
     fun cleanAllInput() {
-        et_box_code.setText("")
+        et_box_code?.setText("")
     }
 
 }
