@@ -119,7 +119,7 @@ class AddLabelActivity : BaseActivity() , MvpView , View.OnClickListener{
             Toast.makeText(this,"箱码不能为空",Toast.LENGTH_SHORT).show()
             return
         }
-        val url = "${BASE_URL}pdaout/replabel"
+        val url = "${BASE_URL}pdaout/replabel                                           "
         val map = HashMap<Any,Any>()
         map["project"] = StanicManager.stanicManager.projectCode!!
         map["barcode"] = boxCode

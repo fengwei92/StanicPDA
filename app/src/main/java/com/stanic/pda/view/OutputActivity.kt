@@ -35,6 +35,9 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     private val outBeanList = ArrayList<OutBean>()
     private var outAdapter: OutAdapter? = null
     private var currentCode: String = ""
+    companion object{
+        private const val ADMIN_ID = "e4bf44cd329f43f18f2c48d57e03e3db"
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -78,6 +81,12 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
      * 初始化view
      */
     private fun initView() {
+        val angecyId = StanicManager.stanicManager.userAgencyId
+        if (angecyId == ADMIN_ID){
+            tv_choose_pdt.visibility = View.VISIBLE
+        }else{
+            tv_choose_pdt.visibility = View.GONE
+        }
         iv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
         tv_parts.setTextColor(resources.getColor(R.color.mian_color))
         outstatus = 3
@@ -162,7 +171,7 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
             et_out_code.setText("")
             outBean.pdtName = mPdtBean?.pdtname
             outBean.setsCode(currentCode)
-            outBeanList.add(outBean)
+            outBeanList.add(0,outBean)
             setAdapter()
         }else{
             Toast.makeText(this,outBean.msg,Toast.LENGTH_SHORT).show()
