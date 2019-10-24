@@ -16,6 +16,7 @@ import com.stanic.pda.bean.AgencyBean
 import com.stanic.pda.bean.MenuBean
 import com.stanic.pda.bean.OutBean
 import com.stanic.pda.bean.ProductBean
+import com.stanic.pda.dialog.AdminAgencyDialog
 import com.stanic.pda.dialog.AgencyDialog
 import com.stanic.pda.dialog.ProductDialog
 import com.stanic.pda.presenter.MvpPresenter
@@ -35,7 +36,9 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     private val outBeanList = ArrayList<OutBean>()
     private var outAdapter: OutAdapter? = null
     private var currentCode: String = ""
-    companion object{
+    private var adminAgencyDialog: AdminAgencyDialog? = null
+
+    companion object {
         private const val ADMIN_ID = "e4bf44cd329f43f18f2c48d57e03e3db"
     }
 
@@ -61,7 +64,12 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
                 showProductDialog()
             }
             R.id.tv_choose_agency -> {
-                showAgencyDialog()
+                val id = StanicManager.stanicManager.userAgencyId
+                if (id == ADMIN_ID) {
+                    showAdminAgencyDialog()
+                } else {
+                    showAgencyDialog()
+                }
             }
         }
     }
@@ -82,9 +90,9 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
      */
     private fun initView() {
         val angecyId = StanicManager.stanicManager.userAgencyId
-        if (angecyId == ADMIN_ID){
+        if (angecyId == ADMIN_ID) {
             tv_choose_pdt.visibility = View.VISIBLE
-        }else{
+        } else {
             tv_choose_pdt.visibility = View.GONE
         }
         iv_1.setBackgroundColor(resources.getColor(R.color.mian_color))
@@ -167,14 +175,14 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     override fun showData(data: Any) {
         val result = data.toString()
         val outBean = JSONObject.parseObject(result, OutBean::class.java)
-        if(outBean.code == 1){
+        if (outBean.code == 1) {
             et_out_code.setText("")
             outBean.pdtName = mPdtBean?.pdtname
             outBean.setsCode(currentCode)
-            outBeanList.add(0,outBean)
+            outBeanList.add(0, outBean)
             setAdapter()
-        }else{
-            Toast.makeText(this,outBean.msg,Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, outBean.msg, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -184,18 +192,21 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
      */
     private fun out(code: String) {
         currentCode = code
-        if (null == mPdtBean || mPdtBean?.pdtid == null){
-            Toast.makeText(this,"请选择产品",Toast.LENGTH_SHORT).show()
-            return
+        val sendAgencyId = StanicManager.stanicManager.userAgencyId!!
+        if (sendAgencyId == ADMIN_ID){
+            if (null == mPdtBean || mPdtBean?.pdtid == null) {
+                Toast.makeText(this, "请选择产品", Toast.LENGTH_SHORT).show()
+                return
+            }
         }
-        if (null == mAgcBean || mAgcBean?.id == null){
-            Toast.makeText(this,"请选择经销商",Toast.LENGTH_SHORT).show()
+        if (null == mAgcBean || mAgcBean?.id == null) {
+            Toast.makeText(this, "请选择经销商", Toast.LENGTH_SHORT).show()
             return
         }
         val url = "${BASE_URL}pdaout/pdaout"
         val userId = StanicManager.stanicManager.userId
         val map = HashMap<Any, Any>()
-        val sendAgencyId = StanicManager.stanicManager.userAgencyId!!
+
         val projectCode = StanicManager.stanicManager.projectCode!!
         when (outstatus) {
             0 -> {
@@ -207,7 +218,9 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
             3 -> map["barcode"] = code
         }
         map["project"] = projectCode
-        map["pdtid"] = mPdtBean?.pdtid!!
+        if (sendAgencyId == ADMIN_ID){
+            map["pdtid"] = mPdtBean?.pdtid!!
+        }
         map["revagencyid"] = mAgcBean?.id!!
         map["sendagencyid"] = sendAgencyId
         map["userid"] = userId!!
@@ -264,5 +277,12 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
         this.mPdtBean = productBean
         tv_choose_pdt.text = productBean.pdtname
         productDialog?.dismiss()
+    }
+
+    private fun showAdminAgencyDialog() {
+        adminAgencyDialog = AdminAgencyDialog(this)
+
+        adminAgencyDialog?.show()
+
     }
 }

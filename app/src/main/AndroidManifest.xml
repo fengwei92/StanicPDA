@@ -36,6 +36,7 @@
         <activity android:name=".view.AddLabelActivity" />
         <activity android:name=".view.TodayCountActivity" />
         <activity android:name=".view.QueryPdtActivity" />
+        <activity android:name=".view.ChooseAgencyActivity" />
     </application>
 
 </manifest>

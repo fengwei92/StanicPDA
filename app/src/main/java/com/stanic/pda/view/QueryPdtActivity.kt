@@ -50,6 +50,13 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
             if (queryBean.data == null) {
                 Toast.makeText(this, "暂无数据", Toast.LENGTH_SHORT).show()
             } else {
+                val productOutCount = if (queryBean.data.outcount == null){
+                    "暂无"
+                }else{
+                    queryBean.data.outcount
+                }
+
+
                 var text = "产品名称：  ${queryBean.data.pdtname}" + "\r\n" +
                         "经销商：  ${queryBean.data.agency}" + "\r\n"
                 if (!TextUtils.isEmpty(queryBean.data.barcode)) {
@@ -61,8 +68,8 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
                 if (!TextUtils.isEmpty(queryBean.data.storecode)) {
                     text += "托码：  ${queryBean.data.storecode}" + "\r\n"
                 }
-                text += "数量：  ${queryBean.data.outcount}" + "\r\n"
-                tv_pdt_detail.setText(text)
+                text += "数量：  $productOutCount\r\n"
+                tv_pdt_detail.text = text
             }
         } else {
             Toast.makeText(this, queryBean.msg, Toast.LENGTH_SHORT).show()
