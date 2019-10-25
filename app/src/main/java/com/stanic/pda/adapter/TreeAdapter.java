@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class TreeAdapter extends BaseAdapter {
     private Context mcontext;
-    private Activity mActivity;
     private List<TreePoint> pointList;
     private String keyword = "";
     private HashMap<String, TreePoint> pointMap = new HashMap<>();
@@ -39,7 +39,7 @@ public class TreeAdapter extends BaseAdapter {
     //两种操作模式  点击 或者 选择
     private static final int ModeClick = 1;
     private static final int ModeSelect = 2;
-
+    private OnItemClickListener itemClickListener = null;
     @IntDef({ModeClick,ModeSelect})
     public @interface Mode{
 
@@ -156,6 +156,7 @@ public class TreeAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mcontext).inflate(R.layout.item_treeview, null);
             holder = new ViewHolder();
+            holder.item = convertView.findViewById(R.id.rl_item);
             holder.text = (TextView) convertView.findViewById(R.id.text);
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.ib_select = (ImageButton) convertView.findViewById(R.id.ib_select);
@@ -163,7 +164,14 @@ public class TreeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         final TreePoint tempPoint = (TreePoint) getItem(position);
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.setItemClick(tempPoint);
+            }
+        });
         int level = TreeUtils.getLevel(tempPoint,pointMap);
         holder.icon.setPadding(25 * level, holder.icon.getPaddingTop(), 0, holder.icon.getPaddingBottom());
         if ("0".equals(tempPoint.getISLEAF())) {  //如果为父节点
@@ -210,24 +218,24 @@ public class TreeAdapter extends BaseAdapter {
 
     public void onItemClick(int position) {
         TreePoint treePoint = (TreePoint) getItem(position);
-        if ("1".equals(treePoint.getISLEAF())) {   //点击叶子节点
-            //处理回填
-            Toast.makeText(mcontext, getSubmitResult(treePoint), Toast.LENGTH_SHORT).show();
-        } else {  //如果点击的是父类
-            if (treePoint.isExpand()) {
-                for (TreePoint tempPoint : pointList) {
-                    if (tempPoint.getPARENTID().equals(treePoint.getID())) {
-                        if ("0".equals(treePoint.getISLEAF())) {
-                            tempPoint.setExpand(false);
-                        }
-                    }
-                }
-                treePoint.setExpand(false);
-            } else {
-                treePoint.setExpand(true);
-            }
-        }
-        this.notifyDataSetChanged();
+//        if ("1".equals(treePoint.getISLEAF())) {   //点击叶子节点
+//            //处理回填
+//            Toast.makeText(mcontext, getSubmitResult(treePoint), Toast.LENGTH_SHORT).show();
+//        } else {  //如果点击的是父类
+//            if (treePoint.isExpand()) {
+//                for (TreePoint tempPoint : pointList) {
+//                    if (tempPoint.getPARENTID().equals(treePoint.getID())) {
+//                        if ("0".equals(treePoint.getISLEAF())) {
+//                            tempPoint.setExpand(false);
+//                        }
+//                    }
+//                }
+//                treePoint.setExpand(false);
+//            } else {
+//                treePoint.setExpand(true);
+//            }
+//        }
+//        this.notifyDataSetChanged();
     }
 
 
@@ -292,6 +300,14 @@ public class TreeAdapter extends BaseAdapter {
         TextView text;
         ImageView icon;
         ImageButton ib_select;
+        RelativeLayout item;
     }
 
+    public void setItemClickListener(OnItemClickListener listener){
+        this.itemClickListener = listener;
+    }
+
+    public interface OnItemClickListener{
+        void setItemClick(TreePoint treePoint);
+    }
 }

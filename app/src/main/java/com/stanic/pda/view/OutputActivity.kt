@@ -12,10 +12,7 @@ import com.alibaba.fastjson.JSONObject
 import com.stanic.pda.R
 import com.stanic.pda.StanicManager
 import com.stanic.pda.adapter.OutAdapter
-import com.stanic.pda.bean.AgencyBean
-import com.stanic.pda.bean.MenuBean
-import com.stanic.pda.bean.OutBean
-import com.stanic.pda.bean.ProductBean
+import com.stanic.pda.bean.*
 import com.stanic.pda.dialog.AdminAgencyDialog
 import com.stanic.pda.dialog.AgencyDialog
 import com.stanic.pda.dialog.ProductDialog
@@ -23,6 +20,9 @@ import com.stanic.pda.presenter.MvpPresenter
 import com.stanic.pda.util.CodeToName
 import com.stanic.pda.util.UrlList
 import kotlinx.android.synthetic.main.activity_out_put.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     AgencyDialog.DialogSelectListener, ProductDialog.ProductSelectListener {
@@ -37,6 +37,7 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     private var outAdapter: OutAdapter? = null
     private var currentCode: String = ""
     private var adminAgencyDialog: AdminAgencyDialog? = null
+    private var adminTreeAgency : TreePoint? = null
 
     companion object {
         private const val ADMIN_ID = "e4bf44cd329f43f18f2c48d57e03e3db"
@@ -65,11 +66,12 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
             }
             R.id.tv_choose_agency -> {
                 val id = StanicManager.stanicManager.userAgencyId
-                if (id == ADMIN_ID) {
-                    showAdminAgencyDialog()
-                } else {
-                    showAgencyDialog()
-                }
+//                if (id == ADMIN_ID) {
+//                    showAdminAgencyDialog()
+//                } else {
+//                    showAgencyDialog()
+//                }
+                showAdminAgencyDialog()
             }
         }
     }
@@ -82,6 +84,7 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
         scanControl = true
         outBeanList.clear()
         initView()
+        EventBus.getDefault().register(this)
         initReceiver()
     }
 
@@ -220,8 +223,10 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
         map["project"] = projectCode
         if (sendAgencyId == ADMIN_ID){
             map["pdtid"] = mPdtBean?.pdtid!!
+            map["revagencyid"] = adminTreeAgency?.id!!
+        }else{
+            map["revagencyid"] = mAgcBean?.id!!
         }
-        map["revagencyid"] = mAgcBean?.id!!
         map["sendagencyid"] = sendAgencyId
         map["userid"] = userId!!
         map["outstatus"] = outstatus
@@ -281,8 +286,19 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
 
     private fun showAdminAgencyDialog() {
         adminAgencyDialog = AdminAgencyDialog(this)
-
         adminAgencyDialog?.show()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public fun onGetMessage(message: MessageWrap){
+        adminTreeAgency = message.message as TreePoint
+        tv_choose_agency.text = adminTreeAgency?.nname
+        adminAgencyDialog?.dismiss()
     }
 }

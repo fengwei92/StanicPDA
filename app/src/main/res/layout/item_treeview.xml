@@ -6,6 +6,7 @@
         android:descendantFocusability="blocksDescendants"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
+        android:id="@+id/rl_item"
         android:paddingRight="10dp"
         android:paddingBottom="5dp">
 
