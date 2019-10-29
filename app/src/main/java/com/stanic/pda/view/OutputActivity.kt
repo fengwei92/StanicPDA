@@ -66,12 +66,11 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
             }
             R.id.tv_choose_agency -> {
                 val id = StanicManager.stanicManager.userAgencyId
-//                if (id == ADMIN_ID) {
-//                    showAdminAgencyDialog()
-//                } else {
-//                    showAgencyDialog()
-//                }
-                showAdminAgencyDialog()
+                if (id == ADMIN_ID) {
+                    showAdminAgencyDialog()
+                } else {
+                    showAgencyDialog()
+                }
             }
         }
     }
