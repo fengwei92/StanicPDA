@@ -10,4 +10,8 @@
     <color name="btn_color">#283d8b</color>
     <color name="edit_color">#cccccc</color>
     <color name="text_color">#333333</color>
+    <color name="common_blue">#00bac5</color>
+    <color name="common_blue_1">#5ecdd4</color>
+
+    <color name="login_head_view_bgcolor">#00bac5</color>
 </resources>

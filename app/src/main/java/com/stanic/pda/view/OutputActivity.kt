@@ -18,6 +18,8 @@ import com.stanic.pda.dialog.AgencyDialog
 import com.stanic.pda.dialog.ProductDialog
 import com.stanic.pda.presenter.MvpPresenter
 import com.stanic.pda.util.CodeToName
+import com.stanic.pda.util.Dept
+import com.stanic.pda.util.Node
 import com.stanic.pda.util.UrlList
 import kotlinx.android.synthetic.main.activity_out_put.*
 import org.greenrobot.eventbus.EventBus
@@ -37,7 +39,7 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
     private var outAdapter: OutAdapter? = null
     private var currentCode: String = ""
     private var adminAgencyDialog: AdminAgencyDialog? = null
-    private var adminTreeAgency : TreePoint? = null
+    private var dept: Dept? = null
 
     companion object {
         private const val ADMIN_ID = "e4bf44cd329f43f18f2c48d57e03e3db"
@@ -222,7 +224,7 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
         map["project"] = projectCode
         if (sendAgencyId == ADMIN_ID){
             map["pdtid"] = mPdtBean?.pdtid!!
-            map["revagencyid"] = adminTreeAgency?.id!!
+            map["revagencyid"] = dept?.id!!
         }else{
             map["revagencyid"] = mAgcBean?.id!!
         }
@@ -296,8 +298,8 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onGetMessage(message: MessageWrap){
-        adminTreeAgency = message.message as TreePoint
-        tv_choose_agency.text = adminTreeAgency?.nname
+        dept = message.message as Dept
+        tv_choose_agency.text = dept?.name
         adminAgencyDialog?.dismiss()
     }
 }
