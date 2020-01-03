@@ -78,6 +78,7 @@ class StackEntryFragment : BaseFragment(), View.OnClickListener ,TipDialog.Selec
                 map["storecode"] = stackCode
                 map["casecode"] = caseCode
                 map["userid"] = userId!!
+                map["item"] = "1"
             }
 
             override fun onSuccess(response: String) {

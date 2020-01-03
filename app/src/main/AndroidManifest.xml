@@ -37,6 +37,7 @@
         <activity android:name=".view.TodayCountActivity" />
         <activity android:name=".view.QueryPdtActivity" />
         <activity android:name=".view.ChooseAgencyActivity" />
+        <activity android:name=".view.OutputByOrderActivity" />
     </application>
 
 </manifest>

@@ -13,6 +13,8 @@
     <string name="return_out">退货入库</string>
     <string name="choose_pdt">选择产品</string>
     <string name="choose_agc">选择经销商</string>
+    <string name="choose_order">选择订单</string>
+    <string name="choose_child_order">选择子订单</string>
     <string name="parts_out">散件</string>
     <string name="case_out">箱</string>
     <string name="support_out">托</string>

@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.stanic.pda.adapter.MenuAdapter
 import com.stanic.pda.R
+import com.stanic.pda.StanicManager
 import com.stanic.pda.bean.MenuBean
 import com.stanic.pda.util.CodeToName
 import com.stanic.pda.util.SpacesItemDecoration
@@ -13,6 +14,9 @@ import kotlinx.android.synthetic.main.activity_menu.*
 
 
 class MenuActivity : BaseActivity(), MvpView, View.OnClickListener, MenuAdapter.OnSelectedListener {
+    companion object {
+        private const val ADMIN_ID = "e4bf44cd329f43f18f2c48d57e03e3db"
+    }
     override fun onClick(v: View?) {
 
     }
@@ -25,8 +29,15 @@ class MenuActivity : BaseActivity(), MvpView, View.OnClickListener, MenuAdapter.
             CodeToName.groupSupport ->
                 intent.setClass(this@MenuActivity,RelationStackActivity::class.java)
             CodeToName.outPut -> {
-                intent.setClass(this@MenuActivity, OutputActivity::class.java)
-                intent.putExtra("outPutStr", menuName)
+                val order = StanicManager.stanicManager.order
+                val id = StanicManager.stanicManager.userAgencyId
+                if (order == 1 && id == ADMIN_ID){
+                    intent.setClass(this@MenuActivity, OutputByOrderActivity::class.java)
+                    intent.putExtra("outPutStr", menuName)
+                }else{
+                    intent.setClass(this@MenuActivity, OutputActivity::class.java)
+                    intent.putExtra("outPutStr", menuName)
+                }
             }
             CodeToName.cancelOut -> {
                 intent.setClass(this@MenuActivity, CancelOutActivity::class.java)

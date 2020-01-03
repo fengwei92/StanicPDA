@@ -27,7 +27,7 @@ class AdminAgencyDialog(context: Context) : BaseDialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_dept_layout)
-        mListView =  findViewById(R.id.id_tree)
+        mListView = findViewById(R.id.id_tree)
         mAdapter = NodeTreeAdapter(context, mListView, mLinkedList)
         mListView?.adapter = mAdapter
         initData()

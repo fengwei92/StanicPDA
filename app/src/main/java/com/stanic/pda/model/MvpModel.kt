@@ -82,9 +82,11 @@ class MvpModel {
         val projectCode = userObject.getString("tableprix")
         val userId = userObject?.getString("id")
         val userAgencyId = userObject?.getString("agencyid")
+        val order = jsonObject.getString("order")
         StanicManager.stanicManager.userId = userId
         StanicManager.stanicManager.projectCode = projectCode
         StanicManager.stanicManager.userAgencyId = userAgencyId
+        StanicManager.stanicManager.order = order.toInt()
         val menu = jsonObject.getString("catalogids")
         if (menu.equals("{}")) {
             return ""

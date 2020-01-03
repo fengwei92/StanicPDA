@@ -19,6 +19,8 @@ class StanicManager {
     /*项目名*/
     var projectCode : String? = null
 
+    var order: Int? = null //1有订单 0无订单
+
     companion object {
         /*StanicManager实例*/
         private var instance: StanicManager? = null

@@ -85,6 +85,7 @@ class EntryFragment : BaseFragment(), View.OnClickListener, TipDialog.SelectList
                 map["barcode"] = barCode
                 map["casecode"] = caseCode
                 map["userid"] = userId!!
+                map["item"] = "1"
             }
 
             override fun onSuccess(response: String) {
