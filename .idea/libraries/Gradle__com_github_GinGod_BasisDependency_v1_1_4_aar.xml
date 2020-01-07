@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.GinGod:BasisDependency:v1.1.4@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/72183a4c1a19442d168b7b305ef1e9f2/BasisDependency-v1.1.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/72183a4c1a19442d168b7b305ef1e9f2/BasisDependency-v1.1.4/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.GinGod/BasisDependency/v1.1.4/bf4b430ba78ee5ff5f5c2f0307e5f27548bf7126/BasisDependency-v1.1.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.GinGod/BasisDependency/v1.1.4/7e435d73306635ecd251b3d88887fe60f7450985/BasisDependency-v1.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

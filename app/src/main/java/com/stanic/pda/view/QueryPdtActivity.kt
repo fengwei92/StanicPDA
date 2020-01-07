@@ -56,9 +56,14 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
                     queryBean.data.outcount
                 }
 
+                var text = ""
+                if (!TextUtils.isEmpty(queryBean.data.ordernum)){
+                    text += "订单号：  ${queryBean.data.ordernum}" + "\r\n"
+                }
 
-                var text = "产品名称：  ${queryBean.data.pdtname}" + "\r\n" +
+                text += "产品名称：  ${queryBean.data.pdtname}" + "\r\n" +
                         "经销商：  ${queryBean.data.agency}" + "\r\n"
+
                 if (!TextUtils.isEmpty(queryBean.data.barcode)) {
                     text += "盒码：  ${queryBean.data.barcode}" + "\r\n"
                 }
@@ -68,6 +73,8 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
                 if (!TextUtils.isEmpty(queryBean.data.storecode)) {
                     text += "托码：  ${queryBean.data.storecode}" + "\r\n"
                 }
+
+
                 text += "数量：  $productOutCount\r\n"
                 tv_pdt_detail.text = text
             }

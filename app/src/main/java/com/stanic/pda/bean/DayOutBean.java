@@ -55,6 +55,15 @@ public class DayOutBean {
         private String pdtname;
         private String agency;
         private String outcount;
+        private String ordernum;
+
+        public String getOrdernum() {
+            return ordernum;
+        }
+
+        public void setOrdernum(String ordernum) {
+            this.ordernum = ordernum;
+        }
 
         public Object getBarcode() {
             return barcode;

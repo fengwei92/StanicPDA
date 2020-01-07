@@ -34,5 +34,6 @@ dependencies {
     api 'com.alibaba:fastjson:1.1.70.android'
     api 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.GinGod:BasisDependency:v1.1.4'
 
 }

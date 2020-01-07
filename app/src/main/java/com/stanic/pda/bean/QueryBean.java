@@ -51,7 +51,16 @@ public class QueryBean {
         private String storecode;
         private String pdtname;
         private String agency;
+        private String ordernum;
         private String outcount;
+
+        public String getOrdernum() {
+            return ordernum;
+        }
+
+        public void setOrdernum(String ordernum) {
+            this.ordernum = ordernum;
+        }
 
         public String getBarcode() {
             return barcode;
