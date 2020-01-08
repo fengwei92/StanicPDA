@@ -63,6 +63,7 @@ class CancelOutActivity : BaseActivity(), MvpView, View.OnClickListener {
                 val string = String(p1?.extras?.getByteArray(UrlList.KEY)!!)
                 if (scanControl) {
                     scanControl = false
+                    et_code.setText(string)
                     cancelOut(string)
                 }
             }

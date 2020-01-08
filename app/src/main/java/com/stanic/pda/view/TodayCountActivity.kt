@@ -24,6 +24,9 @@ class TodayCountActivity : BaseActivity(), MvpView, View.OnClickListener {
     private var mYear = ""
     private var mMonth = ""
     private var mDay = ""
+    private val mList: ArrayList<DayOutBean.DataBean> = ArrayList()
+    private var dayOutAdapter = DayoutAdapterAdapter(this,mList)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,14 +73,15 @@ class TodayCountActivity : BaseActivity(), MvpView, View.OnClickListener {
         val code = dayOutBean.code
         if (code == 1) {
             val list = dayOutBean.data as ArrayList
-            setAdapter(list)
+            mList.addAll(list)
+            setAdapter()
         } else {
             Toast.makeText(this, dayOutBean.msg, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun setAdapter(list: ArrayList<DayOutBean.DataBean>) {
-        val dayOutAdapter = DayoutAdapterAdapter(this, list)
+    private fun setAdapter() {
+        dayOutAdapter = DayoutAdapterAdapter(this, mList)
         rv_today_count.adapter = dayOutAdapter
     }
 
@@ -85,7 +89,6 @@ class TodayCountActivity : BaseActivity(), MvpView, View.OnClickListener {
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.tv_choose_date -> {
-
                 BasisTimesUtils.showDatePickerDialog(
                     TodayCountActivity@ this,
                     BasisTimesUtils.THEME_DEVICE_DEFAULT_LIGHT,
@@ -108,7 +111,9 @@ class TodayCountActivity : BaseActivity(), MvpView, View.OnClickListener {
                             if (mDay.length == 1){
                                 mDay = "0$mDay"
                             }
-                            tv_choose_date.text = "${mYear}年${mMonth}月$mDay{日}"
+                            mList.clear()
+                            dayOutAdapter.notifyDataSetChanged()
+                            tv_choose_date.text = "${mYear}年${mMonth}月${mDay}日"
                             getTodayCount("$mYear$mMonth$mDay")
                         }
 

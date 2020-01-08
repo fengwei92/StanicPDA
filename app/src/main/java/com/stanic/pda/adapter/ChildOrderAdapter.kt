@@ -28,7 +28,7 @@ class ChildOrderAdapter(
     }
 
     override fun onBindViewHolder(p0: ChildOrderHolder, p1: Int) {
-        p0.textView.text = "产品名称：" + list[p1].pdtname + "\r\n" +  "计划数量：" + list[p1].plannum + "\r\n"
+        p0.textView.text = "产品名称：" + list[p1].pdtname + "\n" +  "计划数量：" + list[p1].plannum + "\n "+ "已发送数量: " + list[p1].sendnum
         p0.textView.setOnClickListener {
             selectListener?.setSelected(list[p1])
         }

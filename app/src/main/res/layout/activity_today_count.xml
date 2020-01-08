@@ -26,6 +26,8 @@
             android:text="请选择日期"
             android:gravity="center"
             android:textSize="18sp"
+            android:background="@drawable/main_oval"
+            android:textColor="@color/white"
             />
 
     <android.support.v7.widget.RecyclerView

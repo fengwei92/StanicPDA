@@ -202,10 +202,15 @@ class OutputActivity : BaseActivity(), MvpView, View.OnClickListener,
                 Toast.makeText(this, "请选择产品", Toast.LENGTH_SHORT).show()
                 return
             }
-        }
-        if (null == mAgcBean || mAgcBean?.id == null) {
-            Toast.makeText(this, "请选择经销商", Toast.LENGTH_SHORT).show()
-            return
+            if (dept == null || dept?.id == null){
+                Toast.makeText(this, "请选择经销商", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }else{
+            if (null == mAgcBean || mAgcBean?.id == null) {
+                Toast.makeText(this, "请选择经销商", Toast.LENGTH_SHORT).show()
+                return
+            }
         }
         val url = "${BASE_URL}pdaout/pdaout"
         val userId = StanicManager.stanicManager.userId

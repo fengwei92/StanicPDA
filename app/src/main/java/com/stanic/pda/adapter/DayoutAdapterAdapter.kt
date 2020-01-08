@@ -37,10 +37,15 @@ class DayoutAdapterAdapter(
         if (!TextUtils.isEmpty(order)){
             text += "订单号： ${order} \r\n"
         }
-        text += "经销商： ${agency} \r\n  产品名称： ${pdtName} \r\n 数量： ${count}"
+        text += "经销商： ${agency} \n产品名称： ${pdtName} \n数量： ${count}"
 
 
         p0.tvDayOut.text = text
+    }
+
+    fun cleanAllData() {
+        list.clear()
+        notifyDataSetChanged()
     }
 
     inner class NormalHolder(view: View) : RecyclerView.ViewHolder(view) {

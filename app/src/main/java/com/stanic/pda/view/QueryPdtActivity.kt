@@ -51,7 +51,7 @@ class QueryPdtActivity : BaseActivity(), MvpView, View.OnClickListener {
                 Toast.makeText(this, "暂无数据", Toast.LENGTH_SHORT).show()
             } else {
                 val productOutCount = if (queryBean.data.outcount == null){
-                    "暂无"
+                    "0"
                 }else{
                     queryBean.data.outcount
                 }
